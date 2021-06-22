@@ -1,6 +1,6 @@
 import { LayoutProps } from "./Layout.props";
 import cn from "classnames";
-import styles from "./Layout.module.css";
+import s from "./Layout.module.css";
 import { Header } from "./Header/Header";
 import { Sidebar } from "./Sidebar/Sidebar";
 import { Footer } from "./Footer/Footer";
@@ -10,17 +10,14 @@ export const Layout = ({
 children
 }: LayoutProps): JSX.Element => {
   return (
-<>
-<Header/>
-<div>
-<Sidebar/>
-<div>
+<div className={s.wrapper}>
+<Header className={s.header}/>
+<Sidebar className={s.sidebar}/>
+<div className={s.body}>
   {children}
 </div>
-
+<Footer className={s.footer}/>
 </div>
-<Footer/>
-</>
   );
 };
 
