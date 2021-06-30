@@ -1,8 +1,11 @@
 import { Htag, Button, P, Tag, Rating } from "../components";
 import {useState} from 'react';
 import { withLayout } from "../layout/Layout";
+import { GetStaticProps } from "next";
+import axios from 'axios';
+import { MenuItem } from "../interfaces/menu.interfaces";
 
- function Home(): JSX.Element {
+ function Home({menu, firstCategory}: HomeProps): JSX.Element {
   const [rating, setRating]=useState<number>(4);
   return (
     <>
@@ -20,18 +23,7 @@ import { withLayout } from "../layout/Layout";
         quisquam ipsum eum accusamus. Saepe facilis dolore quia aliquid fuga
         labore accusantium minima maxime rem excepturi praesentium fugit
         deserunt iusto, recusandae repellat ex explicabo debitis nulla dolorum
-        quos laborum natus optio ea deleniti? Ipsa. Eligendi explicabo facilis
-        totam nostrum omnis ipsa molestiae magni asperiores pariatur dolorum
-        facere aut dolore exercitationem ipsum accusantium quas suscipit
-        doloribus corrupti, dignissimos quisquam similique? Atque enim neque
-        numquam perferendis! Expedita tenetur ratione veritatis sint sunt
-        repellendus dolores ex nobis! Deserunt repudiandae asperiores
-        perferendis dolor iste quasi eaque a, quos est natus consectetur
-        molestiae dignissimos ipsum blanditiis nulla vel cupiditate! Vitae error
-        ut id dignissimos dolore laboriosam, cupiditate ipsa fuga, mollitia
-        excepturi harum optio voluptas perferendis in. Obcaecati culpa
-        voluptate, minima earum, totam illo deserunt, molestiae commodi
-        reprehenderit sapiente numquam.
+ 
       </P>
       <Tag size="m" color="green">
         Hello
@@ -44,8 +36,34 @@ import { withLayout } from "../layout/Layout";
       </Tag>
       <Tag size="m">Hello</Tag>
       <Rating rating={rating} isEditable setRating={setRating}/>
+      <ul>
+      {menu.map(m=>(
+        <li key={m._id.secondCategory}>{m._id.secondCategory}</li>
+      ))}
+      </ul>
+     
     </>
   );
 }
 
 export default withLayout(Home);
+
+export const getStaticProps: GetStaticProps<HomeProps> = async ()=>{
+  const firstCategory = 0;
+  const {data: menu}= await axios.post<MenuItem[]>(process.env.NEXT_PUBLIC_DOMAIN + '/api/top-page/find', {
+    firstCategory
+  });
+  return {
+    props: {
+      menu,
+      firstCategory
+    }
+  };
+
+};
+
+
+interface HomeProps extends Record<string, unknown> {
+  menu: MenuItem[],
+  firstCategory: number
+}
