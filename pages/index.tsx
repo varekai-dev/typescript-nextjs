@@ -35,13 +35,7 @@ import { MenuItem } from "../interfaces/menu.interfaces";
         Hello
       </Tag>
       <Tag size="m">Hello</Tag>
-      <Rating rating={rating} isEditable setRating={setRating}/>
-      <ul>
-      {menu.map(m=>(
-        <li key={m._id.secondCategory}>{m._id.secondCategory}</li>
-      ))}
-      </ul>
-     
+      <Rating rating={rating} isEditable setRating={setRating}/>     
     </>
   );
 }
